@@ -27,7 +27,6 @@
     0 0 8px #c71585,
     0 0 10px #ff1493;
 }
-
 body.dark {
   --bg: #2b2b31;
   --panel: rgba(42,42,50,0.96);
@@ -46,7 +45,6 @@ body.dark {
     0 0 8px #91b8ff,
     0 0 10px #e8e0cf;
 }
-
 * { box-sizing: border-box; }
 html, body { margin: 0; min-height: 100%; }
 body {
@@ -69,21 +67,15 @@ body::after {
   z-index: 0;
   font-size: clamp(42px, 4vw, 72px);
   line-height: 1.45;
-  opacity: 0.18;
+  opacity: 0.28;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   filter: saturate(1.15);
 }
-body::before {
-  left: 8px;
-  transform: rotate(-8deg);
-}
-body::after {
-  right: 8px;
-  transform: rotate(8deg);
-}
+body::before { left: 8px; transform: rotate(-8deg); }
+body::after { right: 8px; transform: rotate(8deg); }
 body.dark::before,
 body.dark::after { opacity: 0.23; }
 #app {
@@ -103,9 +95,7 @@ body.dark::after { opacity: 0.23; }
   text-shadow: var(--title-shadow);
   letter-spacing: 1px;
 }
-.menu-shell,
-.view-shell,
-.card {
+.menu-shell, .view-shell, .card, .modal-card {
   background: var(--panel);
   border: 2px solid var(--border);
   border-radius: 22px;
@@ -113,12 +103,7 @@ body.dark::after { opacity: 0.23; }
   backdrop-filter: blur(6px);
 }
 .menu-shell { padding: 26px; max-width: 1050px; margin: 0 auto; }
-.menu-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-top: 14px;
-}
+.menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 14px; }
 .menu-card {
   border: 2px solid var(--border);
   border-radius: 18px;
@@ -130,85 +115,129 @@ body.dark::after { opacity: 0.23; }
   gap: 12px;
   min-height: 210px;
 }
-.menu-card h3,.board-header h3,.section-title{margin:0;}
-.menu-card h3{font-size:22px;}
-.menu-card p{margin:0;color:var(--muted);line-height:1.45;font-size:14px;}
-.menu-card .tag{
-  display:inline-flex;align-items:center;justify-content:center;width:fit-content;
-  padding:6px 10px;border-radius:999px;border:2px solid var(--border);
-  font-size:12px;font-weight:800;background:var(--button);
+.menu-card h3, .board-header h3, .section-title, .modal-card h3 { margin: 0; }
+.menu-card h3 { font-size: 22px; }
+.menu-card p { margin: 0; color: var(--muted); line-height: 1.45; font-size: 14px; }
+.menu-card .tag {
+  display: inline-flex; align-items: center; justify-content: center; width: fit-content;
+  padding: 6px 10px; border-radius: 999px; border: 2px solid var(--border);
+  font-size: 12px; font-weight: 800; background: var(--button);
 }
-.layout { display:grid; grid-template-columns:300px 1fr; gap:18px; align-items:start; }
-.view-shell { padding:18px; }
-.sidebar { padding:16px; }
-.section { margin-bottom:18px; }
+.layout { display: grid; grid-template-columns: 320px 1fr; gap: 18px; align-items: start; }
+.view-shell { padding: 18px; }
+.sidebar { padding: 16px; }
+.section { margin-bottom: 18px; }
 .section-title {
-  font-size:13px; text-transform:uppercase; letter-spacing:.08em;
-  color:var(--muted); font-weight:800; margin-bottom:10px;
+  font-size: 13px; text-transform: uppercase; letter-spacing: .08em;
+  color: var(--muted); font-weight: 800; margin-bottom: 10px;
 }
-.button-stack,.mode-row,.multi-row { display:grid; gap:10px; }
-.mode-row { grid-template-columns:repeat(2,1fr); }
-.multi-row { grid-template-columns:repeat(3,1fr); }
+.button-stack, .mode-row, .multi-row { display: grid; gap: 10px; }
+.mode-row { grid-template-columns: repeat(2, 1fr); }
+.multi-row { grid-template-columns: repeat(3, 1fr); }
 .button, select {
-  width:100%; border:2px solid var(--border); border-radius:14px; background:var(--button);
-  color:var(--text); padding:11px 12px; font:inherit; transition:transform .15s ease, background .15s ease;
+  width: 100%; border: 2px solid var(--border); border-radius: 14px; background: var(--button);
+  color: var(--text); padding: 11px 12px; font: inherit; transition: transform .15s ease, background .15s ease;
 }
-.button { cursor:pointer; font-weight:800; }
+.button { cursor: pointer; font-weight: 800; }
 .button:hover, select:hover { background: var(--button-hover); }
 .button:active { transform: translateY(1px); }
-.button.primary { background: linear-gradient(135deg, var(--accent-2), var(--accent-3)); color:#fff; }
-.button.primary:hover { filter:brightness(1.04); background:linear-gradient(135deg, var(--accent-2), var(--accent-3)); }
+.button.primary { background: linear-gradient(135deg, var(--accent-2), var(--accent-3)); color: #fff; }
+.button.primary:hover { filter: brightness(1.04); background: linear-gradient(135deg, var(--accent-2), var(--accent-3)); }
 .multi-btn {
-  min-width:0; padding:16px 0; border-radius:999px; background:#ff7f95; color:#111;
-  border:3px solid #000; font-weight:800; font-size:18px; box-shadow:0 4px 0 rgba(0,0,0,.15); cursor:pointer;
+  min-width: 0; padding: 16px 0; border-radius: 999px; background: #ff7f95; color: #111;
+  border: 3px solid #000; font-weight: 800; font-size: 18px; box-shadow: 0 4px 0 rgba(0,0,0,.15); cursor: pointer;
 }
-.multi-btn.active { background:#ff4f67; box-shadow:0 0 0 3px rgba(255,255,255,.85) inset; }
-.hint,.sub,.muted { color:var(--muted); font-size:13px; line-height:1.45; }
+.multi-btn.active { background: #ff4f67; box-shadow: 0 0 0 3px rgba(255,255,255,.85) inset; }
+.hint, .sub, .muted { color: var(--muted); font-size: 13px; line-height: 1.45; }
 .board-header {
-  display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:10px; flex-wrap:wrap;
+  display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap;
 }
 .status-pill {
-  display:inline-flex; align-items:center; justify-content:center; padding:6px 10px; border-radius:999px;
-  border:2px solid var(--border); background:var(--button); font-size:12px; font-weight:800; color:var(--text);
+  display: inline-flex; align-items: center; justify-content: center; padding: 6px 10px; border-radius: 999px;
+  border: 2px solid var(--border); background: var(--button); font-size: 12px; font-weight: 800; color: var(--text);
 }
-.board-area { overflow-x:auto; }
+.board-banner {
+  display: grid; grid-template-columns: repeat(3, max-content); gap: 10px; align-items: center; margin-bottom: 14px;
+}
+.badge {
+  display: inline-flex; align-items: center; justify-content: center; border: 2px solid var(--border);
+  background: var(--button); border-radius: 999px; padding: 8px 12px; font-size: 13px; font-weight: 800; color: var(--text);
+}
+.badge.active-player { background: linear-gradient(135deg, var(--accent-2), var(--accent-3)); color: #fff; }
+.board-area { overflow-x: auto; }
 table {
-  border-collapse:collapse; width:100%; min-width:560px; background:var(--panel-2);
-  border:2px solid var(--border); border-radius:16px; overflow:hidden;
+  border-collapse: collapse; width: 100%; min-width: 560px; background: var(--panel-2);
+  border: 2px solid var(--border); border-radius: 16px; overflow: hidden;
 }
 th, td {
-  border:1px solid var(--border); text-align:center; min-width:72px; height:58px; padding:8px;
-  color:#000; background:#fff; font-weight:700;
+  border: 1px solid var(--border); text-align: center; min-width: 72px; height: 58px; padding: 8px;
+  color: #000; background: #fff; font-weight: 700;
 }
-th[contenteditable="true"] { outline:none; cursor:text; }
-.label { min-width:82px; cursor:default; }
-.score-cell { font-size:18px; }
-.player-cell { cursor:pointer; user-select:none; }
-.mark { color:#000; font-size:28px; line-height:1; display:inline-flex; align-items:center; justify-content:center; }
-.closed-svg { width:28px; height:28px; display:inline-block; }
+th[contenteditable="true"] { outline: none; cursor: text; }
+.label { min-width: 82px; cursor: default; }
+.score-cell { font-size: 18px; }
+.player-cell { cursor: pointer; user-select: none; }
+.player-cell.active-cell { outline: 3px solid rgba(0,0,0,0.28); outline-offset: -3px; }
+.mark { color: #000; font-size: 28px; line-height: 1; display: inline-flex; align-items: center; justify-content: center; }
+.closed-svg { width: 28px; height: 28px; display: inline-block; }
 .closed-flash { animation: closePulse .28s ease; }
 @keyframes closePulse { 0%{transform:scale(1);} 50%{transform:scale(1.12);} 100%{transform:scale(1);} }
-.top-actions { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-bottom:14px; }
+.top-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 14px; }
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-card {
+  width: min(900px, 100%);
+  padding: 20px;
+}
+.modal-title {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+.summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 14px;
+}
+.summary-table th,
+.summary-table td {
+  text-align: left;
+  height: auto;
+  min-width: 0;
+  padding: 10px 12px;
+}
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
 @media (max-width: 980px) {
-  .layout,.menu-grid { grid-template-columns:1fr; }
-  body::before,
-  body::after {
+  .layout, .menu-grid { grid-template-columns: 1fr; }
+  .board-banner { grid-template-columns: 1fr; }
+  body::before, body::after {
     width: 70px;
     font-size: clamp(28px, 5vw, 48px);
-    opacity: 0.14;
+    opacity: 0.2;
   }
 }
 @media (max-width: 640px) {
-  #app { width:min(100%, calc(100% - 16px)); margin-top:4px; }
-  .menu-shell,.view-shell,.sidebar { padding:14px; }
-  .title { margin-bottom:10px; }
-  th, td { min-width:60px; height:50px; padding:6px; }
-  .multi-btn { padding:13px 0; font-size:16px; }
-  body::before,
-  body::after {
+  #app { width: min(100%, calc(100% - 16px)); margin-top: 4px; }
+  .menu-shell, .view-shell, .sidebar, .modal-card { padding: 14px; }
+  .title { margin-bottom: 10px; }
+  th, td { min-width: 60px; height: 50px; padding: 6px; }
+  .multi-btn { padding: 13px 0; font-size: 16px; }
+  body::before, body::after {
     width: 44px;
     font-size: 26px;
-    opacity: 0.12;
+    opacity: 0.16;
   }
 }
 </style>
@@ -227,7 +256,14 @@ const APP_STATE = {
     history: [],
     multiplier: 1,
     legs: [0,0,0,0],
-    lastPlayerCount: 2
+    lastPlayerCount: 2,
+    legsToWin: 3,
+    currentPlayer: 0,
+    matchWinner: null,
+    currentLegScores: [0,0,0,0],
+    legHistory: [[],[],[],[]],
+    showSummary: false,
+    summaryData: null
   }
 };
 
@@ -244,6 +280,7 @@ function renderApp() {
   app.innerHTML = `
     <h1 id="main-title" class="title">${APP_STATE.currentView === 'menu' ? "Flamingo´s Dartapp" : getViewTitle()}</h1>
     ${APP_STATE.currentView === 'menu' ? renderMenuView() : renderCricketView()}
+    ${APP_STATE.currentView === 'cricket' && APP_STATE.cricket.showSummary ? renderCricketSummaryModal() : ''}
   `;
 
   if (APP_STATE.currentView === 'cricket') {
@@ -254,8 +291,7 @@ function renderApp() {
 }
 
 function getViewTitle() {
-  if (APP_STATE.currentView === 'cricket') return 'Cricket';
-  return 'Flamingo´s Dartapp';
+  return APP_STATE.currentView === 'cricket' ? 'Cricket' : 'Flamingo´s Dartapp';
 }
 
 function renderMenuView() {
@@ -269,44 +305,14 @@ function renderMenuView() {
         <article class="menu-card">
           <span class="tag">Redo nu</span>
           <h3>Cricket</h3>
-          <p>Det spel vi bygger just nu. Scorecard, multiplikatorer, ångra, legs och grund för vidare utveckling finns redan.</p>
+          <p>Det spel vi bygger just nu. Scorecard, multiplikatorer, ångra, legs, turordning och matchmål finns redan.</p>
           <button class="button primary" onclick="openCricket()">Öppna Cricket</button>
         </article>
-
-        <article class="menu-card">
-          <span class="tag">Kommer senare</span>
-          <h3>501</h3>
-          <p>Klassiskt spel med nedräkning. Bra nästa steg när Cricket känns helt stabilt.</p>
-          <button class="button" disabled>Inte aktiv ännu</button>
-        </article>
-
-        <article class="menu-card">
-          <span class="tag">Kommer senare</span>
-          <h3>JDC Challenge</h3>
-          <p>Perfekt för träning och uppföljning. Bra kandidat när vi börjar bygga statistik ordentligt.</p>
-          <button class="button" disabled>Inte aktiv ännu</button>
-        </article>
-
-        <article class="menu-card">
-          <span class="tag">Kommer senare</span>
-          <h3>Tactics</h3>
-          <p>Ett bra träningsspel att lägga in när grundstrukturen för flera spellägen sitter helt rätt.</p>
-          <button class="button" disabled>Inte aktiv ännu</button>
-        </article>
-
-        <article class="menu-card">
-          <span class="tag">Kommer senare</span>
-          <h3>121 Challenge</h3>
-          <p>Checkpoint-baserat träningsspel som passar mycket bra när vi börjar bygga spelarhistorik.</p>
-          <button class="button" disabled>Inte aktiv ännu</button>
-        </article>
-
-        <article class="menu-card">
-          <span class="tag">Kommer senare</span>
-          <h3>Hubbe</h3>
-          <p>Förberedd plats även för klubbens egna spellägen så att appen kan växa utan ombyggnad.</p>
-          <button class="button" disabled>Inte aktiv ännu</button>
-        </article>
+        <article class="menu-card"><span class="tag">Kommer senare</span><h3>501</h3><p>Klassiskt spel med nedräkning.</p><button class="button" disabled>Inte aktiv ännu</button></article>
+        <article class="menu-card"><span class="tag">Kommer senare</span><h3>JDC Challenge</h3><p>Perfekt för träning och uppföljning.</p><button class="button" disabled>Inte aktiv ännu</button></article>
+        <article class="menu-card"><span class="tag">Kommer senare</span><h3>Tactics</h3><p>Ett bra träningsspel att lägga in senare.</p><button class="button" disabled>Inte aktiv ännu</button></article>
+        <article class="menu-card"><span class="tag">Kommer senare</span><h3>121 Challenge</h3><p>Checkpoint-baserat träningsspel.</p><button class="button" disabled>Inte aktiv ännu</button></article>
+        <article class="menu-card"><span class="tag">Kommer senare</span><h3>Hubbe</h3><p>Plats för klubbens egna spellägen.</p><button class="button" disabled>Inte aktiv ännu</button></article>
       </div>
     </section>
   `;
@@ -314,111 +320,114 @@ function renderMenuView() {
 
 function renderCricketView() {
   const cricket = APP_STATE.cricket;
+  const activeName = cricket.players[cricket.currentPlayer]?.name || 'Ingen';
+  const winnerText = cricket.matchWinner ? `Matchvinnare: ${cricket.matchWinner}` : `Först till ${cricket.legsToWin} legs`;
   return `
     <section class="layout">
       <aside class="sidebar card">
-        <div class="section">
-          <p class="section-title">Navigation</p>
-          <div class="button-stack">
-            <button class="button" onclick="goToMenu()">Till startmenyn</button>
-          </div>
-        </div>
-
-        <div class="section">
-          <p class="section-title">Spelinställningar</p>
-          <label for="playerCount">Antal spelare (1–4)</label>
-          <select id="playerCount">
-            <option value="1" ${cricket.lastPlayerCount === 1 ? 'selected' : ''}>1</option>
-            <option value="2" ${cricket.lastPlayerCount === 2 ? 'selected' : ''}>2</option>
-            <option value="3" ${cricket.lastPlayerCount === 3 ? 'selected' : ''}>3</option>
-            <option value="4" ${cricket.lastPlayerCount === 4 ? 'selected' : ''}>4</option>
-          </select>
-        </div>
-
-        <div class="section">
-          <p class="section-title">Kontroller</p>
-          <div class="button-stack">
-            <button class="button primary" onclick="createCricketGame()">Starta spel</button>
-            <button class="button" onclick="newCricketRound()">Ny omgång</button>
-            <button class="button" onclick="undoCricket()">Ångra senaste klick</button>
-          </div>
-        </div>
-
-        <div class="section">
-          <p class="section-title">Tema</p>
-          <div class="mode-row">
-            <button class="button" onclick="setMode('light')">Light</button>
-            <button class="button" onclick="setMode('dark')">Dark</button>
-          </div>
-        </div>
-
-        <div class="section">
-          <p class="section-title">Kastmultipel</p>
-          <div id="multi-buttons" class="multi-row"></div>
-          <div class="hint">När någon vinner ett leg startar nästa omgång automatiskt och spelplanen nollställs.</div>
-        </div>
+        <div class="section"><p class="section-title">Navigation</p><div class="button-stack"><button class="button" onclick="goToMenu()">Till startmenyn</button></div></div>
+        <div class="section"><p class="section-title">Spelinställningar</p><label for="playerCount">Antal spelare (1–4)</label><select id="playerCount"><option value="1" ${cricket.lastPlayerCount===1?'selected':''}>1</option><option value="2" ${cricket.lastPlayerCount===2?'selected':''}>2</option><option value="3" ${cricket.lastPlayerCount===3?'selected':''}>3</option><option value="4" ${cricket.lastPlayerCount===4?'selected':''}>4</option></select></div>
+        <div class="section"><label for="legsToWin">Först till antal legs</label><select id="legsToWin" onchange="updateLegTarget(this.value)"><option value="1" ${cricket.legsToWin===1?'selected':''}>1</option><option value="2" ${cricket.legsToWin===2?'selected':''}>2</option><option value="3" ${cricket.legsToWin===3?'selected':''}>3</option><option value="5" ${cricket.legsToWin===5?'selected':''}>5</option><option value="7" ${cricket.legsToWin===7?'selected':''}>7</option></select></div>
+        <div class="section"><p class="section-title">Kontroller</p><div class="button-stack"><button class="button primary" onclick="createCricketGame()">Starta spel</button><button class="button" onclick="newCricketRound()">Ny omgång</button><button class="button" onclick="nextCricketPlayer()">Nästa spelare</button><button class="button" onclick="undoCricket()">Ångra senaste klick</button><button class="button" onclick="resetCricketMatch()">Nollställ match</button></div></div>
+        <div class="section"><p class="section-title">Tema</p><div class="mode-row"><button class="button" onclick="setMode('light')">Light</button><button class="button" onclick="setMode('dark')">Dark</button></div></div>
+        <div class="section"><p class="section-title">Kastmultipel</p><div id="multi-buttons" class="multi-row"></div><div class="hint">Du kan klicka direkt på vilken spelare som helst. Den spelaren blir aktiv automatiskt.</div></div>
       </aside>
-
       <main class="view-shell">
-        <div class="board-header">
-          <div>
-            <h3>Cricket</h3>
-            <div class="sub">Byt namn direkt i tabellhuvudet. Poäng efter stängning räknas bara för träffar över 3 markeringar.</div>
-          </div>
-          <div class="status-pill">${APP_STATE.mode === 'dark' ? 'Dark mode' : 'Light mode'}</div>
-        </div>
-        <div class="board-area">
-          <div id="cricket-game"></div>
-        </div>
+        <div class="board-header"><div><h3>Cricket</h3><div class="sub">Byt namn direkt i tabellhuvudet. Poäng efter stängning räknas bara för träffar över 3 markeringar.</div></div><div class="status-pill">${APP_STATE.mode==='dark'?'Dark mode':'Light mode'}</div></div>
+        <div class="board-banner"><div class="badge active-player">Aktiv spelare: ${activeName}</div><div class="badge">${winnerText}</div><div class="badge">Aktiv multipel: X${cricket.multiplier}</div></div>
+        <div class="board-area"><div id="cricket-game"></div></div>
       </main>
     </section>
   `;
 }
 
+function renderCricketSummaryModal() {
+  const summary = APP_STATE.cricket.summaryData;
+  if (!summary) return '';
+  const rows = summary.players.map(player => {
+    const legText = player.legScores.length ? player.legScores.map((score, index) => `Leg ${index + 1}: ${score} poäng`).join(', ') : 'Inga vunna legs';
+    return `<tr><td>${player.name}</td><td>${player.legsWon}</td><td>${legText}</td></tr>`;
+  }).join('');
+  return `
+    <div class="modal-overlay"><div class="modal-card"><h3 class="modal-title">Matchsammanfattning</h3><div class="muted">${summary.winner} vann matchen.</div><table class="summary-table"><thead><tr><th>Spelare</th><th>Leg vunna</th><th>Data</th></tr></thead><tbody>${rows}</tbody></table><div class="modal-actions"><button class="button primary" onclick="startNewCricketMatchFromSummary()">Starta ny match</button><button class="button" onclick="closeSummaryToMenu()">Gå till startmenyn</button></div></div></div>
+  `;
+}
+
 function goToMenu() {
+  APP_STATE.currentView = 'menu';
+  APP_STATE.cricket.showSummary = false;
+  renderApp();
+}
+function closeSummaryToMenu() {
+  APP_STATE.cricket.showSummary = false;
   APP_STATE.currentView = 'menu';
   renderApp();
 }
-
+function startNewCricketMatchFromSummary() {
+  APP_STATE.cricket.showSummary = false;
+  createCricketGame();
+}
 function openCricket() {
   APP_STATE.currentView = 'cricket';
   renderApp();
 }
+function updateLegTarget(value) {
+  APP_STATE.cricket.legsToWin = parseInt(value, 10);
+  renderApp();
+}
 
 function createCricketGame() {
-  const numPlayers = parseInt(document.getElementById('playerCount').value, 10);
-  APP_STATE.cricket.players = [];
-  APP_STATE.cricket.lastPlayerCount = numPlayers;
-  APP_STATE.cricket.legs = [0,0,0,0];
-
+  const numPlayers = parseInt(document.getElementById('playerCount')?.value || APP_STATE.cricket.lastPlayerCount, 10);
+  const cricket = APP_STATE.cricket;
+  cricket.players = [];
+  cricket.lastPlayerCount = numPlayers;
+  cricket.legs = [0,0,0,0];
+  cricket.matchWinner = null;
+  cricket.currentPlayer = 0;
+  cricket.currentLegScores = [0,0,0,0];
+  cricket.legHistory = [[],[],[],[]];
+  cricket.showSummary = false;
+  cricket.summaryData = null;
+  cricket.gameOver = false;
+  cricket.history = [];
+  cricket.multiplier = 1;
   for (let i = 0; i < numPlayers; i++) {
-    APP_STATE.cricket.players.push({
-      name: `Spelare ${i + 1}`,
-      hits: Array(APP_STATE.cricket.targets.length).fill(0),
-      score: 0,
-      color: DEFAULT_PLAYER_COLORS[i]
-    });
+    cricket.players.push({ name: `Spelare ${i + 1}`, hits: Array(cricket.targets.length).fill(0), score: 0, color: DEFAULT_PLAYER_COLORS[i] });
   }
-
-  APP_STATE.cricket.gameOver = false;
-  APP_STATE.cricket.history = [];
-  APP_STATE.cricket.multiplier = 1;
+  APP_STATE.currentView = 'cricket';
   renderApp();
+}
+
+function resetCricketMatch() {
+  const cricket = APP_STATE.cricket;
+  if (!cricket.players.length) return;
+  cricket.legs = [0,0,0,0];
+  cricket.matchWinner = null;
+  cricket.currentPlayer = 0;
+  cricket.currentLegScores = [0,0,0,0];
+  cricket.legHistory = [[],[],[],[]];
+  cricket.showSummary = false;
+  cricket.summaryData = null;
+  newCricketRound();
 }
 
 function newCricketRound() {
   const cricket = APP_STATE.cricket;
   if (!cricket.players.length) return;
-
-  cricket.players = cricket.players.map((player) => ({
-    ...player,
-    hits: Array(cricket.targets.length).fill(0),
-    score: 0
-  }));
-
+  cricket.players = cricket.players.map((player) => ({ ...player, hits: Array(cricket.targets.length).fill(0), score: 0 }));
+  cricket.currentLegScores = [0,0,0,0];
   cricket.gameOver = false;
   cricket.history = [];
   cricket.multiplier = 1;
+  cricket.currentPlayer = 0;
+  cricket.showSummary = false;
+  renderApp();
+}
+
+function nextCricketPlayer() {
+  const cricket = APP_STATE.cricket;
+  if (!cricket.players.length || cricket.gameOver) return;
+  cricket.currentPlayer = (cricket.currentPlayer + 1) % cricket.players.length;
   renderApp();
 }
 
@@ -426,52 +435,35 @@ function renderCricketTable() {
   const cricket = APP_STATE.cricket;
   const gameDiv = document.getElementById('cricket-game');
   let html = '<table><tr><th>Nr</th>';
-
-  cricket.players.forEach((player, i) => {
-    html += `<th contenteditable="true" oninput="updateCricketPlayerName(${i}, this.innerText)">${player.name}</th>`;
-  });
-
+  cricket.players.forEach((player, i) => { html += `<th contenteditable="true" oninput="updateCricketPlayerName(${i}, this.innerText)">${player.name}</th>`; });
   html += '</tr>';
-
   cricket.targets.forEach((target, row) => {
     html += `<tr><td class="label">${target}</td>`;
     cricket.players.forEach((player, col) => {
-      html += `<td class="player-cell" id="cell-${row}-${col}" onclick="handleCricketClick(${row}, ${col})" style="background-color:${player.color};"></td>`;
+      const activeClass = col === cricket.currentPlayer ? 'active-cell' : '';
+      html += `<td class="player-cell ${activeClass}" id="cell-${row}-${col}" onclick="handleCricketClick(${row}, ${col})" style="background-color:${player.color};"></td>`;
     });
     html += '</tr>';
   });
-
   html += '<tr><td class="label">Poäng</td>';
-  cricket.players.forEach((player, i) => {
-    html += `<td class="score-cell" id="score-${i}">${player.score}</td>`;
-  });
+  cricket.players.forEach((player, i) => { html += `<td class="score-cell" id="score-${i}">${player.score}</td>`; });
   html += '</tr>';
-
   html += '<tr><td class="label">Legs</td>';
-  cricket.players.forEach((player, i) => {
-    html += `<td class="score-cell" id="legs-${i}">${cricket.legs[i] || 0}</td>`;
-  });
+  cricket.players.forEach((player, i) => { html += `<td class="score-cell" id="legs-${i}">${cricket.legs[i] || 0}</td>`; });
   html += '</tr></table>';
-
   gameDiv.innerHTML = html;
-  cricket.players.forEach((_, i) => {
-    cricket.targets.forEach((__, row) => updateCricketCell(row, i));
-  });
+  cricket.players.forEach((_, i) => cricket.targets.forEach((__, row) => updateCricketCell(row, i)));
 }
 
 function renderCricketMultiButtons() {
   const cricket = APP_STATE.cricket;
   const div = document.getElementById('multi-buttons');
   div.innerHTML = '';
-
-  [1, 2, 3].forEach(value => {
+  [1,2,3].forEach(value => {
     const btn = document.createElement('button');
     btn.className = 'multi-btn' + (cricket.multiplier === value ? ' active' : '');
     btn.innerText = `X${value}`;
-    btn.onclick = () => {
-      cricket.multiplier = value;
-      renderCricketMultiButtons();
-    };
+    btn.onclick = () => { cricket.multiplier = value; renderApp(); };
     div.appendChild(btn);
   });
 }
@@ -484,14 +476,20 @@ function handleCricketClick(row, playerIndex) {
   const cricket = APP_STATE.cricket;
   if (cricket.gameOver) return;
 
+  const prevCurrentPlayer = cricket.currentPlayer;
+  cricket.currentPlayer = playerIndex;
+
   const prevHits = cricket.players[playerIndex].hits[row];
   const prevScore = cricket.players[playerIndex].score;
+  const prevLegScore = cricket.currentLegScores[playerIndex];
 
   cricket.history.push({
     row,
     playerIndex,
     prevHit: prevHits,
-    prevScore: prevScore
+    prevScore: prevScore,
+    prevCurrentPlayer: prevCurrentPlayer,
+    prevLegScore: prevLegScore
   });
 
   const rawNewHits = prevHits + cricket.multiplier;
@@ -506,15 +504,15 @@ function handleCricketClick(row, playerIndex) {
         break;
       }
     }
-
     if (openForOpponents) {
       const points = cricket.targets[row] === 'B' ? 25 : parseInt(cricket.targets[row], 10);
       const previousExtraHits = Math.max(0, prevHits - 3);
       const newExtraHits = Math.max(0, rawNewHits - 3);
       const extraScoringHits = newExtraHits - previousExtraHits;
-
       if (extraScoringHits > 0) {
-        cricket.players[playerIndex].score += points * extraScoringHits;
+        const gained = points * extraScoringHits;
+        cricket.players[playerIndex].score += gained;
+        cricket.currentLegScores[playerIndex] += gained;
       }
     }
   }
@@ -522,6 +520,7 @@ function handleCricketClick(row, playerIndex) {
   updateCricketCell(row, playerIndex, prevHits < 3 && newHits >= 3);
   updateCricketScore(playerIndex);
   checkCricketWinner();
+  if (!cricket.gameOver) renderApp();
 }
 
 function updateCricketCell(row, playerIndex, justClosed = false) {
@@ -529,22 +528,12 @@ function updateCricketCell(row, playerIndex, justClosed = false) {
   if (!cell) return;
   const value = APP_STATE.cricket.players[playerIndex].hits[row];
   cell.classList.remove('closed-flash');
-
-  if (value === 0) {
-    cell.innerHTML = '';
-  } else if (value === 1) {
-    cell.innerHTML = `<span class="mark">/</span>`;
-  } else if (value === 2) {
-    cell.innerHTML = `<span class="mark">X</span>`;
-  } else {
-    cell.innerHTML = `
-      <svg class="closed-svg" viewBox="0 0 24 24" aria-hidden="true">
-        <circle cx="12" cy="12" r="10.5" stroke="black" stroke-width="2" fill="none"></circle>
-        <line x1="7" y1="7" x2="17" y2="17" stroke="black" stroke-width="2"></line>
-        <line x1="7" y1="17" x2="17" y2="7" stroke="black" stroke-width="2"></line>
-      </svg>`;
+  if (value === 0) cell.innerHTML = '';
+  else if (value === 1) cell.innerHTML = `<span class="mark">/</span>`;
+  else if (value === 2) cell.innerHTML = `<span class="mark">X</span>`;
+  else {
+    cell.innerHTML = `<svg class="closed-svg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5" stroke="black" stroke-width="2" fill="none"></circle><line x1="7" y1="7" x2="17" y2="17" stroke="black" stroke-width="2"></line><line x1="7" y1="17" x2="17" y2="7" stroke="black" stroke-width="2"></line></svg>`;
   }
-
   if (justClosed) {
     void cell.offsetWidth;
     cell.classList.add('closed-flash');
@@ -556,27 +545,31 @@ function updateCricketScore(index) {
   if (el) el.innerText = APP_STATE.cricket.players[index].score;
 }
 
-function updateCricketLeg(index) {
-  const el = document.getElementById(`legs-${index}`);
-  if (el) el.innerText = APP_STATE.cricket.legs[index] || 0;
-}
-
 function checkCricketWinner() {
   const cricket = APP_STATE.cricket;
   const closedPlayers = [];
   for (let i = 0; i < cricket.players.length; i++) {
-    if (cricket.players[i].hits.every(h => h >= 3)) {
-      closedPlayers.push(i);
-    }
+    if (cricket.players[i].hits.every(h => h >= 3)) closedPlayers.push(i);
   }
   if (closedPlayers.length === 0) return;
-
   const maxScore = Math.max(...cricket.players.map(p => p.score));
   for (const i of closedPlayers) {
     if (cricket.players[i].score === maxScore || maxScore === 0) {
       cricket.legs[i] = (cricket.legs[i] || 0) + 1;
-      alert(`${cricket.players[i].name} vinner legget!`);
-      newCricketRound();
+      cricket.legHistory[i].push(cricket.currentLegScores[i]);
+      if (cricket.legs[i] >= cricket.legsToWin) {
+        cricket.matchWinner = cricket.players[i].name;
+        cricket.gameOver = true;
+        cricket.summaryData = {
+          winner: cricket.players[i].name,
+          players: cricket.players.map((player, index) => ({ name: player.name, legsWon: cricket.legs[index] || 0, legScores: [...cricket.legHistory[index]] }))
+        };
+        cricket.showSummary = true;
+        renderApp();
+      } else {
+        alert(`${cricket.players[i].name} vinner legget!`);
+        newCricketRound();
+      }
       return;
     }
   }
@@ -586,12 +579,12 @@ function undoCricket() {
   const cricket = APP_STATE.cricket;
   if (cricket.history.length === 0) return;
   const last = cricket.history.pop();
-  const { row, playerIndex, prevHit, prevScore } = last;
-  cricket.players[playerIndex].hits[row] = prevHit;
-  cricket.players[playerIndex].score = prevScore;
-  updateCricketCell(row, playerIndex);
-  updateCricketScore(playerIndex);
+  cricket.players[last.playerIndex].hits[last.row] = last.prevHit;
+  cricket.players[last.playerIndex].score = last.prevScore;
+  cricket.currentLegScores[last.playerIndex] = last.prevLegScore;
+  cricket.currentPlayer = last.prevCurrentPlayer;
   cricket.gameOver = false;
+  renderApp();
 }
 
 renderApp();
