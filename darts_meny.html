@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flamingo´s Dartapp</title>
+<link href="https://fonts.googleapis.com/css2?family=Metal+Mania&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f4f0f3;
+  --panel: rgba(255,255,255,0.96);
+  --panel-2: rgba(255,255,255,0.9);
+  --text: #171717;
+  --muted: #5d5460;
+  --border: #171717;
+  --accent-1: #8b004b;
+  --accent-2: #d11674;
+  --accent-3: #ff77b7;
+  --button: #ffffff;
+  --button-hover: #f6eef3;
+  --shadow: 0 14px 40px rgba(0,0,0,0.14);
+  --title-stroke: #000;
+  --title-shadow:
+    0 0 2px #c71585,
+    0 0 4px #ff1493,
+    0 0 6px #ff69b4,
+    0 0 8px #c71585,
+    0 0 10px #ff1493;
+}
+
+body.dark {
+  --bg: #2b2b31;
+  --panel: rgba(42,42,50,0.96);
+  --panel-2: rgba(50,50,60,0.94);
+  --text: #f7f7fb;
+  --muted: #d8d8e1;
+  --border: #efeff4;
+  --button: #3a3a45;
+  --button-hover: #4a4a56;
+  --shadow: 0 18px 42px rgba(0,0,0,0.28);
+  --title-stroke: #e6dece;
+  --title-shadow:
+    0 0 2px #8fb4ff,
+    0 0 4px #c7d7ff,
+    0 0 6px #d9e4ff,
+    0 0 8px #91b8ff,
+    0 0 10px #e8e0cf;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; }
+body {
+  font-family: Inter, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: background .25s ease, color .25s ease;
+  overflow-x: hidden;
+  position: relative;
+}
+body::before,
+body::after {
+  content: "🦩\A🦩\A🦩\A🦩\A🦩\A🦩\A🦩";
+  white-space: pre;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 120px;
+  pointer-events: none;
+  z-index: 0;
+  font-size: clamp(42px, 4vw, 72px);
+  line-height: 1.45;
+  opacity: 0.18;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  filter: saturate(1.15);
+}
+body::before {
+  left: 8px;
+  transform: rotate(-8deg);
+}
+body::after {
+  right: 8px;
+  transform: rotate(8deg);
+}
+body.dark::before,
+body.dark::after { opacity: 0.23; }
+#app {
+  position: relative;
+  z-index: 1;
+  width: min(1320px, calc(100% - 28px));
+  margin: 8px auto 18px;
+}
+.title {
+  margin: 0 0 14px;
+  text-align: center;
+  font-family: 'Metal Mania', cursive;
+  font-size: clamp(72px, 10vw, 144px);
+  line-height: .95;
+  color: var(--accent-1);
+  -webkit-text-stroke: 1.2px var(--title-stroke);
+  text-shadow: var(--title-shadow);
+  letter-spacing: 1px;
+}
+.menu-shell,
+.view-shell,
+.card {
+  background: var(--panel);
+  border: 2px solid var(--border);
+  border-radius: 22px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(6px);
+}
+.menu-shell { padding: 26px; max-width: 1050px; margin: 0 auto; }
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 14px;
+}
+.menu-card {
+  border: 2px solid var(--border);
+  border-radius: 18px;
+  background: var(--panel-2);
+  padding: 18px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 210px;
+}
+.menu-card h3,.board-header h3,.section-title{margin:0;}
+.menu-card h3{font-size:22px;}
+.menu-card p{margin:0;color:var(--muted);line-height:1.45;font-size:14px;}
+.menu-card .tag{
+  display:inline-flex;align-items:center;justify-content:center;width:fit-content;
+  padding:6px 10px;border-radius:999px;border:2px solid var(--border);
+  font-size:12px;font-weight:800;background:var(--button);
+}
+.layout { display:grid; grid-template-columns:300px 1fr; gap:18px; align-items:start; }
+.view-shell { padding:18px; }
+.sidebar { padding:16px; }
+.section { margin-bottom:18px; }
+.section-title {
+  font-size:13px; text-transform:uppercase; letter-spacing:.08em;
+  color:var(--muted); font-weight:800; margin-bottom:10px;
+}
+.button-stack,.mode-row,.multi-row { display:grid; gap:10px; }
+.mode-row { grid-template-columns:repeat(2,1fr); }
+.multi-row { grid-template-columns:repeat(3,1fr); }
+.button, select {
+  width:100%; border:2px solid var(--border); border-radius:14px; background:var(--button);
+  color:var(--text); padding:11px 12px; font:inherit; transition:transform .15s ease, background .15s ease;
+}
+.button { cursor:pointer; font-weight:800; }
+.button:hover, select:hover { background: var(--button-hover); }
+.button:active { transform: translateY(1px); }
+.button.primary { background: linear-gradient(135deg, var(--accent-2), var(--accent-3)); color:#fff; }
+.button.primary:hover { filter:brightness(1.04); background:linear-gradient(135deg, var(--accent-2), var(--accent-3)); }
+.multi-btn {
+  min-width:0; padding:16px 0; border-radius:999px; background:#ff7f95; color:#111;
+  border:3px solid #000; font-weight:800; font-size:18px; box-shadow:0 4px 0 rgba(0,0,0,.15); cursor:pointer;
+}
+.multi-btn.active { background:#ff4f67; box-shadow:0 0 0 3px rgba(255,255,255,.85) inset; }
+.hint,.sub,.muted { color:var(--muted); font-size:13px; line-height:1.45; }
+.board-header {
+  display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:10px; flex-wrap:wrap;
+}
+.status-pill {
+  display:inline-flex; align-items:center; justify-content:center; padding:6px 10px; border-radius:999px;
+  border:2px solid var(--border); background:var(--button); font-size:12px; font-weight:800; color:var(--text);
+}
+.board-area { overflow-x:auto; }
+table {
+  border-collapse:collapse; width:100%; min-width:560px; background:var(--panel-2);
+  border:2px solid var(--border); border-radius:16px; overflow:hidden;
+}
+th, td {
+  border:1px solid var(--border); text-align:center; min-width:72px; height:58px; padding:8px;
+  color:#000; background:#fff; font-weight:700;
+}
+th[contenteditable="true"] { outline:none; cursor:text; }
+.label { min-width:82px; cursor:default; }
+.score-cell { font-size:18px; }
+.player-cell { cursor:pointer; user-select:none; }
+.mark { color:#000; font-size:28px; line-height:1; display:inline-flex; align-items:center; justify-content:center; }
+.closed-svg { width:28px; height:28px; display:inline-block; }
+.closed-flash { animation: closePulse .28s ease; }
+@keyframes closePulse { 0%{transform:scale(1);} 50%{transform:scale(1.12);} 100%{transform:scale(1);} }
+.top-actions { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-bottom:14px; }
+@media (max-width: 980px) {
+  .layout,.menu-grid { grid-template-columns:1fr; }
+  body::before,
+  body::after {
+    width: 70px;
+    font-size: clamp(28px, 5vw, 48px);
+    opacity: 0.14;
+  }
+}
+@media (max-width: 640px) {
+  #app { width:min(100%, calc(100% - 16px)); margin-top:4px; }
+  .menu-shell,.view-shell,.sidebar { padding:14px; }
+  .title { margin-bottom:10px; }
+  th, td { min-width:60px; height:50px; padding:6px; }
+  .multi-btn { padding:13px 0; font-size:16px; }
+  body::before,
+  body::after {
+    width: 44px;
+    font-size: 26px;
+    opacity: 0.12;
+  }
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+const APP_STATE = {
+  mode: 'light',
+  currentView: 'menu',
+  cricket: {
+    players: [],
+    targets: ['20','19','18','17','16','15','B'],
+    gameOver: false,
+    history: [],
+    multiplier: 1,
+    legs: [0,0,0,0],
+    lastPlayerCount: 2
+  }
+};
+
+const DEFAULT_PLAYER_COLORS = ['#add8e6', '#90ee90', '#ffff66', '#ffb6c1'];
+
+function setMode(mode) {
+  APP_STATE.mode = mode;
+  document.body.classList.toggle('dark', mode === 'dark');
+  renderApp();
+}
+
+function renderApp() {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <h1 id="main-title" class="title">${APP_STATE.currentView === 'menu' ? "Flamingo´s Dartapp" : getViewTitle()}</h1>
+    ${APP_STATE.currentView === 'menu' ? renderMenuView() : renderCricketView()}
+  `;
+
+  if (APP_STATE.currentView === 'cricket') {
+    renderCricketTable();
+    renderCricketMultiButtons();
+  }
+  document.body.classList.toggle('dark', APP_STATE.mode === 'dark');
+}
+
+function getViewTitle() {
+  if (APP_STATE.currentView === 'cricket') return 'Cricket';
+  return 'Flamingo´s Dartapp';
+}
+
+function renderMenuView() {
+  return `
+    <section class="menu-shell">
+      <div class="top-actions">
+        <button class="button" onclick="setMode('light')">Light mode</button>
+        <button class="button" onclick="setMode('dark')">Dark mode</button>
+      </div>
+      <div class="menu-grid">
+        <article class="menu-card">
+          <span class="tag">Redo nu</span>
+          <h3>Cricket</h3>
+          <p>Det spel vi bygger just nu. Scorecard, multiplikatorer, ångra, legs och grund för vidare utveckling finns redan.</p>
+          <button class="button primary" onclick="openCricket()">Öppna Cricket</button>
+        </article>
+
+        <article class="menu-card">
+          <span class="tag">Kommer senare</span>
+          <h3>501</h3>
+          <p>Klassiskt spel med nedräkning. Bra nästa steg när Cricket känns helt stabilt.</p>
+          <button class="button" disabled>Inte aktiv ännu</button>
+        </article>
+
+        <article class="menu-card">
+          <span class="tag">Kommer senare</span>
+          <h3>JDC Challenge</h3>
+          <p>Perfekt för träning och uppföljning. Bra kandidat när vi börjar bygga statistik ordentligt.</p>
+          <button class="button" disabled>Inte aktiv ännu</button>
+        </article>
+
+        <article class="menu-card">
+          <span class="tag">Kommer senare</span>
+          <h3>Tactics</h3>
+          <p>Ett bra träningsspel att lägga in när grundstrukturen för flera spellägen sitter helt rätt.</p>
+          <button class="button" disabled>Inte aktiv ännu</button>
+        </article>
+
+        <article class="menu-card">
+          <span class="tag">Kommer senare</span>
+          <h3>121 Challenge</h3>
+          <p>Checkpoint-baserat träningsspel som passar mycket bra när vi börjar bygga spelarhistorik.</p>
+          <button class="button" disabled>Inte aktiv ännu</button>
+        </article>
+
+        <article class="menu-card">
+          <span class="tag">Kommer senare</span>
+          <h3>Hubbe</h3>
+          <p>Förberedd plats även för klubbens egna spellägen så att appen kan växa utan ombyggnad.</p>
+          <button class="button" disabled>Inte aktiv ännu</button>
+        </article>
+      </div>
+    </section>
+  `;
+}
+
+function renderCricketView() {
+  const cricket = APP_STATE.cricket;
+  return `
+    <section class="layout">
+      <aside class="sidebar card">
+        <div class="section">
+          <p class="section-title">Navigation</p>
+          <div class="button-stack">
+            <button class="button" onclick="goToMenu()">Till startmenyn</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <p class="section-title">Spelinställningar</p>
+          <label for="playerCount">Antal spelare (1–4)</label>
+          <select id="playerCount">
+            <option value="1" ${cricket.lastPlayerCount === 1 ? 'selected' : ''}>1</option>
+            <option value="2" ${cricket.lastPlayerCount === 2 ? 'selected' : ''}>2</option>
+            <option value="3" ${cricket.lastPlayerCount === 3 ? 'selected' : ''}>3</option>
+            <option value="4" ${cricket.lastPlayerCount === 4 ? 'selected' : ''}>4</option>
+          </select>
+        </div>
+
+        <div class="section">
+          <p class="section-title">Kontroller</p>
+          <div class="button-stack">
+            <button class="button primary" onclick="createCricketGame()">Starta spel</button>
+            <button class="button" onclick="newCricketRound()">Ny omgång</button>
+            <button class="button" onclick="undoCricket()">Ångra senaste klick</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <p class="section-title">Tema</p>
+          <div class="mode-row">
+            <button class="button" onclick="setMode('light')">Light</button>
+            <button class="button" onclick="setMode('dark')">Dark</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <p class="section-title">Kastmultipel</p>
+          <div id="multi-buttons" class="multi-row"></div>
+          <div class="hint">När någon vinner ett leg startar nästa omgång automatiskt och spelplanen nollställs.</div>
+        </div>
+      </aside>
+
+      <main class="view-shell">
+        <div class="board-header">
+          <div>
+            <h3>Cricket</h3>
+            <div class="sub">Byt namn direkt i tabellhuvudet. Poäng efter stängning räknas bara för träffar över 3 markeringar.</div>
+          </div>
+          <div class="status-pill">${APP_STATE.mode === 'dark' ? 'Dark mode' : 'Light mode'}</div>
+        </div>
+        <div class="board-area">
+          <div id="cricket-game"></div>
+        </div>
+      </main>
+    </section>
+  `;
+}
+
+function goToMenu() {
+  APP_STATE.currentView = 'menu';
+  renderApp();
+}
+
+function openCricket() {
+  APP_STATE.currentView = 'cricket';
+  renderApp();
+}
+
+function createCricketGame() {
+  const numPlayers = parseInt(document.getElementById('playerCount').value, 10);
+  APP_STATE.cricket.players = [];
+  APP_STATE.cricket.lastPlayerCount = numPlayers;
+  APP_STATE.cricket.legs = [0,0,0,0];
+
+  for (let i = 0; i < numPlayers; i++) {
+    APP_STATE.cricket.players.push({
+      name: `Spelare ${i + 1}`,
+      hits: Array(APP_STATE.cricket.targets.length).fill(0),
+      score: 0,
+      color: DEFAULT_PLAYER_COLORS[i]
+    });
+  }
+
+  APP_STATE.cricket.gameOver = false;
+  APP_STATE.cricket.history = [];
+  APP_STATE.cricket.multiplier = 1;
+  renderApp();
+}
+
+function newCricketRound() {
+  const cricket = APP_STATE.cricket;
+  if (!cricket.players.length) return;
+
+  cricket.players = cricket.players.map((player) => ({
+    ...player,
+    hits: Array(cricket.targets.length).fill(0),
+    score: 0
+  }));
+
+  cricket.gameOver = false;
+  cricket.history = [];
+  cricket.multiplier = 1;
+  renderApp();
+}
+
+function renderCricketTable() {
+  const cricket = APP_STATE.cricket;
+  const gameDiv = document.getElementById('cricket-game');
+  let html = '<table><tr><th>Nr</th>';
+
+  cricket.players.forEach((player, i) => {
+    html += `<th contenteditable="true" oninput="updateCricketPlayerName(${i}, this.innerText)">${player.name}</th>`;
+  });
+
+  html += '</tr>';
+
+  cricket.targets.forEach((target, row) => {
+    html += `<tr><td class="label">${target}</td>`;
+    cricket.players.forEach((player, col) => {
+      html += `<td class="player-cell" id="cell-${row}-${col}" onclick="handleCricketClick(${row}, ${col})" style="background-color:${player.color};"></td>`;
+    });
+    html += '</tr>';
+  });
+
+  html += '<tr><td class="label">Poäng</td>';
+  cricket.players.forEach((player, i) => {
+    html += `<td class="score-cell" id="score-${i}">${player.score}</td>`;
+  });
+  html += '</tr>';
+
+  html += '<tr><td class="label">Legs</td>';
+  cricket.players.forEach((player, i) => {
+    html += `<td class="score-cell" id="legs-${i}">${cricket.legs[i] || 0}</td>`;
+  });
+  html += '</tr></table>';
+
+  gameDiv.innerHTML = html;
+  cricket.players.forEach((_, i) => {
+    cricket.targets.forEach((__, row) => updateCricketCell(row, i));
+  });
+}
+
+function renderCricketMultiButtons() {
+  const cricket = APP_STATE.cricket;
+  const div = document.getElementById('multi-buttons');
+  div.innerHTML = '';
+
+  [1, 2, 3].forEach(value => {
+    const btn = document.createElement('button');
+    btn.className = 'multi-btn' + (cricket.multiplier === value ? ' active' : '');
+    btn.innerText = `X${value}`;
+    btn.onclick = () => {
+      cricket.multiplier = value;
+      renderCricketMultiButtons();
+    };
+    div.appendChild(btn);
+  });
+}
+
+function updateCricketPlayerName(index, value) {
+  APP_STATE.cricket.players[index].name = value.trim() || `Spelare ${index + 1}`;
+}
+
+function handleCricketClick(row, playerIndex) {
+  const cricket = APP_STATE.cricket;
+  if (cricket.gameOver) return;
+
+  const prevHits = cricket.players[playerIndex].hits[row];
+  const prevScore = cricket.players[playerIndex].score;
+
+  cricket.history.push({
+    row,
+    playerIndex,
+    prevHit: prevHits,
+    prevScore: prevScore
+  });
+
+  const rawNewHits = prevHits + cricket.multiplier;
+  const newHits = Math.min(rawNewHits, 4);
+  cricket.players[playerIndex].hits[row] = newHits;
+
+  if (newHits >= 3) {
+    let openForOpponents = false;
+    for (let i = 0; i < cricket.players.length; i++) {
+      if (i !== playerIndex && cricket.players[i].hits[row] < 3) {
+        openForOpponents = true;
+        break;
+      }
+    }
+
+    if (openForOpponents) {
+      const points = cricket.targets[row] === 'B' ? 25 : parseInt(cricket.targets[row], 10);
+      const previousExtraHits = Math.max(0, prevHits - 3);
+      const newExtraHits = Math.max(0, rawNewHits - 3);
+      const extraScoringHits = newExtraHits - previousExtraHits;
+
+      if (extraScoringHits > 0) {
+        cricket.players[playerIndex].score += points * extraScoringHits;
+      }
+    }
+  }
+
+  updateCricketCell(row, playerIndex, prevHits < 3 && newHits >= 3);
+  updateCricketScore(playerIndex);
+  checkCricketWinner();
+}
+
+function updateCricketCell(row, playerIndex, justClosed = false) {
+  const cell = document.getElementById(`cell-${row}-${playerIndex}`);
+  if (!cell) return;
+  const value = APP_STATE.cricket.players[playerIndex].hits[row];
+  cell.classList.remove('closed-flash');
+
+  if (value === 0) {
+    cell.innerHTML = '';
+  } else if (value === 1) {
+    cell.innerHTML = `<span class="mark">/</span>`;
+  } else if (value === 2) {
+    cell.innerHTML = `<span class="mark">X</span>`;
+  } else {
+    cell.innerHTML = `
+      <svg class="closed-svg" viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="12" r="10.5" stroke="black" stroke-width="2" fill="none"></circle>
+        <line x1="7" y1="7" x2="17" y2="17" stroke="black" stroke-width="2"></line>
+        <line x1="7" y1="17" x2="17" y2="7" stroke="black" stroke-width="2"></line>
+      </svg>`;
+  }
+
+  if (justClosed) {
+    void cell.offsetWidth;
+    cell.classList.add('closed-flash');
+  }
+}
+
+function updateCricketScore(index) {
+  const el = document.getElementById(`score-${index}`);
+  if (el) el.innerText = APP_STATE.cricket.players[index].score;
+}
+
+function updateCricketLeg(index) {
+  const el = document.getElementById(`legs-${index}`);
+  if (el) el.innerText = APP_STATE.cricket.legs[index] || 0;
+}
+
+function checkCricketWinner() {
+  const cricket = APP_STATE.cricket;
+  const closedPlayers = [];
+  for (let i = 0; i < cricket.players.length; i++) {
+    if (cricket.players[i].hits.every(h => h >= 3)) {
+      closedPlayers.push(i);
+    }
+  }
+  if (closedPlayers.length === 0) return;
+
+  const maxScore = Math.max(...cricket.players.map(p => p.score));
+  for (const i of closedPlayers) {
+    if (cricket.players[i].score === maxScore || maxScore === 0) {
+      cricket.legs[i] = (cricket.legs[i] || 0) + 1;
+      alert(`${cricket.players[i].name} vinner legget!`);
+      newCricketRound();
+      return;
+    }
+  }
+}
+
+function undoCricket() {
+  const cricket = APP_STATE.cricket;
+  if (cricket.history.length === 0) return;
+  const last = cricket.history.pop();
+  const { row, playerIndex, prevHit, prevScore } = last;
+  cricket.players[playerIndex].hits[row] = prevHit;
+  cricket.players[playerIndex].score = prevScore;
+  updateCricketCell(row, playerIndex);
+  updateCricketScore(playerIndex);
+  cricket.gameOver = false;
+}
+
+renderApp();
+</script>
+</body>
+</html>
